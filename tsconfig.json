@@ -1,0 +1,15 @@
+// tsconfig.json
+{
+    "compilerOptions": {
+      "rootDir": "src",
+      "outDir": "dist",
+      "module": "commonjs",
+      "types": ["node"],
+      "target": "es6",
+      "esModuleInterop": true,
+      "lib": ["es6"],
+      "moduleResolution": "node",
+      "experimentalDecorators": true,
+      "emitDecoratorMetadata": true
+    }
+  }
