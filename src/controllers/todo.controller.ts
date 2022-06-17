@@ -31,7 +31,6 @@ export class TodoController {
         const totoData = {
             content: req.body.content
         }
-
         try {
             await this._knex('todos').insert(totoData);
             return res.send("Create new Todo successfully");
@@ -41,16 +40,27 @@ export class TodoController {
     }
 
     public async updateTodo(req: Request, res: Response) {
+        const updateObject = {
+            content: req.body.content
+        }
         try {
-            const updateObject = {
-                content: req.body.content
-            }
             await this._knex('todos')
                 .where('id', '=', req.params.id)
                 .update(updateObject)
             return res.send("Update Todo successfully");
         } catch (error) {
             console.error(error)
+        }
+    }
+
+    public async deleteTodo(req: Request, res: Response) {
+        try {
+            await this._knex('todos')
+                .where('id', '=', req.params.id)
+                .del()
+            return res.send("Delete toto successfully");
+        } catch (error) {
+            console.error(error);
         }
     }
 }

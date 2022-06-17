@@ -17,8 +17,6 @@ async function main() {
     const todoController = container.get<TodoController>(TYPES.TodoController);
 
     app.get('/todos', (req, res) => {
-        console.log("get all111")
-
         todoController.getTodos(req,res);
     })
     app.post('/todo', (req, res) => {
@@ -26,6 +24,9 @@ async function main() {
     })
     app.put('/todo/:id', (req, res) => {
         todoController.updateTodo(req,res);
+    })
+    app.delete('/todo/:id', (req,res) => {
+        todoController.deleteTodo(req,res)
     })
     app.listen(process.env.PORT,() => {
         console.log(`App listening on port ${process.env.PORT}`)
