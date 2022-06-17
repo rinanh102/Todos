@@ -4,11 +4,12 @@ import { server } from "./core/server.core";
 import { TYPES } from "./core/types.core";
 import * as dotenv from 'dotenv';
 import express from 'express';
+import * as bodyParser from "body-parser";
 import {DatabaseClient} from "./services/database.service";
+import { TodoRoutes } from "./routers/todo.router";
 dotenv.config();
-
-import { HomeController } from "./controllers/home.controller";
 import { TodoController } from "./controllers/todo.controller";
+
 
 
 async function main() {
@@ -32,15 +33,15 @@ async function main() {
         console.log(`App listening on port ${process.env.PORT}`)
     })
 
-    // Verify the connection before proceeding
-    const databaseClient = new DatabaseClient();
-    const knex = databaseClient.getknex();
-    try {
-        await knex.raw('SELECT now()')
-        return knex
-    } catch (error) {
-        throw new Error('Unable to connect to Postgres via Knex. Ensure a valid connection.')
-    }
+    // // Verify the connection before proceeding
+    // const databaseClient = new DatabaseClient();
+    // const knex = databaseClient.getknex();
+    // try {
+    //     await knex.raw('SELECT now()')
+    //     return knex
+    // } catch (error) {
+    //     throw new Error('Unable to connect to Postgres via Knex. Ensure a valid connection.')
+    // }
 }
 
 main()

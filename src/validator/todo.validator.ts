@@ -5,6 +5,7 @@ const todoSchema = Joi.object({
 })
 
 export async function createOrupdateTodoValidator(req) {
-    const value = todoSchema.validate(req.body);
-    
+    const valid = todoSchema.validate(req.body);
+    console.log(valid)
+   
 }

@@ -28,6 +28,7 @@ export class TodoController {
     }
 
     public async createTodo(req: Request, res: Response) {
+        
         const totoData = {
             content: req.body.content
         }
