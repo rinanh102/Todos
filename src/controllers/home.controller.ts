@@ -11,6 +11,6 @@ export class HomeController {
 
   public hello(req: Request, res: Response) {
     this.logger.log("INFO", "Get Home.index");
-    return res.send("Hello world");
+    return res.send("Hello world000000");
   }
 }

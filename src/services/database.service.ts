@@ -23,10 +23,11 @@ export class DatabaseClient{
                 tableName: 'KnexMigrations',
             },
             acquireConnectionTimeout: 2000
-          });
+          });     
     }
 
-    public get knex(): Knex{
+    public getknex(): Knex{
         return this._knex
     }
+    
 }
