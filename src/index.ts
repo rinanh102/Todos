@@ -6,7 +6,7 @@ import * as dotenv from 'dotenv';
 import express from 'express';
 import * as bodyParser from "body-parser";
 import {DatabaseClient} from "./services/database.service";
-import { TodoRoutes } from "./routers/todo.router";
+//import { todoRoutes } from "./routers/todo.router";
 dotenv.config();
 import { TodoController } from "./controllers/todo.controller";
 
@@ -16,7 +16,7 @@ async function main() {
     const app = express()
     app.use(express.json());
     const todoController = container.get<TodoController>(TYPES.TodoController);
-
+    //app.use('', todoRoutes)
     app.get('/todos', (req, res) => {
         todoController.getTodos(req,res);
     })
