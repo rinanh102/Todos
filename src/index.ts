@@ -1,34 +1,37 @@
 import "reflect-metadata";
+import {Request, Response, NextFunction} from "express";
 import { container } from "./core/container.core";
-import { server } from "./core/server.core";
 import { TYPES } from "./core/types.core";
+import { server } from "./core/server.core";
+
 import * as dotenv from 'dotenv';
 import express from 'express';
 import * as bodyParser from "body-parser";
-import {DatabaseClient} from "./services/database.service";
-//import { todoRoutes } from "./routers/todo.router";
 dotenv.config();
+import clientRouter from "./routers/index";
 import { TodoController } from "./controllers/todo.controller";
-
-
 
 async function main() {
     const app = express()
     app.use(express.json());
     const todoController = container.get<TodoController>(TYPES.TodoController);
-    //app.use('', todoRoutes)
-    app.get('/todos', (req, res) => {
-        todoController.getTodos(req,res);
-    })
-    app.post('/todo', (req, res) => {
-        todoController.createTodo(req,res);
-    })
-    app.put('/todo/:id', (req, res) => {
-        todoController.updateTodo(req,res);
-    })
-    app.delete('/todo/:id', (req,res) => {
-        todoController.deleteTodo(req,res)
-    })
+   
+    const headerMiddleWare = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+        try {
+            res.set({
+                'Content-Type': 'application/json; charset=utf-8',
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+                'Access-Control-Allow-Headers': '*'
+            });
+            next();
+        } 
+        catch (err) {
+            console.error(err);
+        }
+    };
+    app.use('', headerMiddleWare, clientRouter);
+
     app.listen(process.env.PORT,() => {
         console.log(`App listening on port ${process.env.PORT}`)
     })
