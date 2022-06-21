@@ -4,20 +4,24 @@ import { inject, injectable } from "inversify";
 import {Logger} from "../services/logger.service";
 import { DatabaseClient } from "../services/database.service";
 import { Knex } from "knex";
+import { TodoRepositoty } from "../repositories/todo.repository";
+import { Todo } from "../entities/todo.entity";
 
 @injectable()
 export class TodoService{
     private _knex: Knex;
-
+    private _repository: TodoRepositoty;
     public constructor(
         @inject(TYPES.Logger) private readonly logger: Logger,
-        @inject(TYPES.DatabaseClient) private readonly databaseClient: DatabaseClient
+        @inject(TYPES.DatabaseClient) private readonly databaseClient: DatabaseClient,
+        @inject(TYPES.TodoRepositoty) private readonly todoRepository: TodoRepositoty,
+        
     ) {
         this._knex = databaseClient.getknex();
+        this._repository = todoRepository;
     }
 
     public async getTodos(req: Request, res: Response) {
-
         try {
             const rawData = await this._knex.select('*').from('todos');
             return res.send(rawData);
@@ -25,18 +29,18 @@ export class TodoService{
             console.error(error);
         }
     }
+
     public async createTodo(req: Request, res: Response) {
-        
-        const totoData = {
-            content: req.body.content
+        const todo = new Todo(req.body.content)
+        const result = await this._repository.create(todo);
+        if (result){
+            return res.send("Create Todo successfully");
+        } else {
+            return res.send("Create failed")
         }
-        try {
-            await this._knex('todos').insert(totoData);
-            return res.send("Create new Todo successfully");
-        } catch (error) {
-            console.error(error);
-        }
+      
     }
+
     public async updateTodo(req: Request, res: Response) {
         const updateObject = {
             content: req.body.content

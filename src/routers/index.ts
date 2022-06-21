@@ -1,4 +1,4 @@
-import {Application, Router } from 'express';
+import { Router } from 'express';
 import todoRouter from "./todo.router";
 
 let clientRouter = Router();
